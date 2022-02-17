@@ -6,9 +6,9 @@ function App() {
   return (
     <div>
       <h1>Proyecto desde 0</h1>
-      <Greet people="Nancy" edad={26} />
-      <Greet people="Arturo" edad={30} />
-      <Greet people="Alejandro" edad={33} />
+      <Greet people="Nancy" age={26} />
+      <Greet people="Arturo" age={30} />
+      <Greet people="Alejandro" age={33} />
       <hr />
       <h3>Box coments</h3>
       <Coments

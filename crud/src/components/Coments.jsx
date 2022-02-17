@@ -1,12 +1,12 @@
 import React from "react";
 
-const Coments = (props) => {
+const Coments = ({ urlImage, name, text }) => {
   return (
     <div className="media">
-      <img src={props.urlImage} className="mr-3" alt="" />
+      <img src={urlImage} className="mr-3" alt="" />
       <div className="media-dody">
-        <h5 className="mt-0">{props.name}</h5>
-        {props.text}
+        <h5 className="mt-0">{name}</h5>
+        {text}
       </div>
     </div>
   );
