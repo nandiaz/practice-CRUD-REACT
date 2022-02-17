@@ -6,11 +6,13 @@ function App() {
   const [homeworks, setHomeworks] = React.useState([]);
   const [modoEdition, setModoEdition] = React.useState(false);
   const [id, setId] = React.useState("");
+  const [error, setError] = React.useState(null);
 
   const addHomework = (e) => {
     e.preventDefault();
     if (!homework.trim()) {
       console.log("Empty element");
+      setError("Write something please");
       return;
     }
     console.log(homework);
@@ -23,6 +25,7 @@ function App() {
       },
     ]);
     setHomework("");
+    setError(null);
   };
 
   const deleteHomework = (id) => {
@@ -41,6 +44,7 @@ function App() {
     e.preventDefault();
     if (!homework.trim()) {
       console.log("Empty element");
+      setError("Write something please");
       return;
     }
     const arrayEdit = homeworks.map((item) =>
@@ -50,6 +54,7 @@ function App() {
     setModoEdition(false);
     setHomework("");
     setId("");
+    setError(null);
   };
 
   return (
@@ -60,23 +65,27 @@ function App() {
         <div className="col-8">
           <h4 className="text-center">Homework List</h4>
           <ul className="list-group">
-            {homeworks.map((item) => (
-              <li className="list-group-item" key={item.id}>
-                <span className="lead">{item.nameHomework}</span>
-                <button
-                  className="btn btn-danger btn-sm float-end mx-2"
-                  onClick={() => deleteHomework(item.id)}
-                >
-                  Delete
-                </button>
-                <button
-                  className="btn btn-warning btn-sm float-end"
-                  onClick={() => edit(item)}
-                >
-                  Edit
-                </button>
-              </li>
-            ))}
+            {homeworks.length === 0 ? (
+              <li className="list-group-item">Don't homework</li>
+            ) : (
+              homeworks.map((item) => (
+                <li className="list-group-item" key={item.id}>
+                  <span className="lead">{item.nameHomework}</span>
+                  <button
+                    className="btn btn-danger btn-sm float-end mx-2"
+                    onClick={() => deleteHomework(item.id)}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className="btn btn-warning btn-sm float-end"
+                    onClick={() => edit(item)}
+                  >
+                    Edit
+                  </button>
+                </li>
+              ))
+            )}
           </ul>
         </div>
         <div className="col-4">
@@ -84,6 +93,7 @@ function App() {
             {modoEdition ? "Edit Homework" : "Add Homework"}
           </h4>
           <form onSubmit={modoEdition ? editHomework : addHomework}>
+            {error ? <span className="text-danger">{error}</span> : null}
             <input
               type="text"
               className="form-control mb-2"
