@@ -5,6 +5,7 @@ function App() {
   const [homework, setHomework] = React.useState("");
   const [homeworks, setHomeworks] = React.useState([]);
   const [modoEdition, setModoEdition] = React.useState(false);
+  const [id, setId] = React.useState("");
 
   const addHomework = (e) => {
     e.preventDefault();
@@ -30,10 +31,25 @@ function App() {
     setHomeworks(arrayFilter);
   };
 
-  const editHomework = (item) => {
+  const edit = (item) => {
     console.log(item);
     setModoEdition(true);
     setHomework(item.nameHomework);
+    setId(item.id);
+  };
+  const editHomework = (e) => {
+    e.preventDefault();
+    if (!homework.trim()) {
+      console.log("Empty element");
+      return;
+    }
+    const arrayEdit = homeworks.map((item) =>
+      item.id === id ? { id, nameHomework: homework } : item
+    );
+    setHomeworks(arrayEdit);
+    setModoEdition(false);
+    setHomework("");
+    setId("");
   };
 
   return (
@@ -55,7 +71,7 @@ function App() {
                 </button>
                 <button
                   className="btn btn-warning btn-sm float-end"
-                  onClick={() => editHomework(item)}
+                  onClick={() => edit(item)}
                 >
                   Edit
                 </button>
@@ -67,7 +83,7 @@ function App() {
           <h4 className="text-center">
             {modoEdition ? "Edit Homework" : "Add Homework"}
           </h4>
-          <form onSubmit={addHomework}>
+          <form onSubmit={modoEdition ? editHomework : addHomework}>
             <input
               type="text"
               className="form-control mb-2"
