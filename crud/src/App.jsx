@@ -4,6 +4,7 @@ import { nanoid } from "nanoid";
 function App() {
   const [homework, setHomework] = React.useState("");
   const [homeworks, setHomeworks] = React.useState([]);
+  const [modoEdition, setModoEdition] = React.useState(false);
 
   const addHomework = (e) => {
     e.preventDefault();
@@ -28,6 +29,13 @@ function App() {
     const arrayFilter = homeworks.filter((item) => item.id !== id);
     setHomeworks(arrayFilter);
   };
+
+  const editHomework = (item) => {
+    console.log(item);
+    setModoEdition(true);
+    setHomework(item.nameHomework);
+  };
+
   return (
     <div className="container mt-5">
       <h1 className="text-center">CRUD simple</h1>
@@ -45,7 +53,10 @@ function App() {
                 >
                   Delete
                 </button>
-                <button className="btn btn-warning btn-sm float-end">
+                <button
+                  className="btn btn-warning btn-sm float-end"
+                  onClick={() => editHomework(item)}
+                >
                   Edit
                 </button>
               </li>
@@ -53,7 +64,9 @@ function App() {
           </ul>
         </div>
         <div className="col-4">
-          <h4 className="text-center">Form</h4>
+          <h4 className="text-center">
+            {modoEdition ? "Edit Homework" : "Add Homework"}
+          </h4>
           <form onSubmit={addHomework}>
             <input
               type="text"
@@ -63,9 +76,15 @@ function App() {
               value={homework}
             />
             <div className="d-grid">
-              <button className="btn btn-dark" type="submit">
-                Add
-              </button>
+              {modoEdition ? (
+                <button className="btn btn-warning " type="submit">
+                  Edit
+                </button>
+              ) : (
+                <button className="btn btn-dark" type="submit">
+                  Add
+                </button>
+              )}
             </div>
           </form>
         </div>
