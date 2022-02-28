@@ -1,25 +1,31 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  NavLink,
-} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "./firebase";
 
 function App() {
-  return (
-    <Router>
-      <div className="container">
-        <h1>All ok...</h1>
-        <hr />
-        <Routes>
-          <Route path="/">This is the homepage </Route>
-          <Route path="/contact">This is the contact page</Route>
-        </Routes>
-      </div>
-    </Router>
-  );
+  const [homeworks, setHomeworks] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "Homeworks"));
+
+        querySnapshot.forEach((doc) => {
+          //console.log(`${doc.id} => ${doc.data()}`);
+          const data = doc.data();
+          console.log(data);
+        });
+
+        // const arrayData = await doc.data.map((doc) => ({
+        //   id: doc.id,
+        //   ...doc.data(),
+        // }));
+      } catch {}
+    };
+    getData();
+  }, []);
+
+  return <div className="container">Hello</div>;
 }
 
 export default App;
